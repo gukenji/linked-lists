@@ -98,15 +98,37 @@ class LinkedList
             string << node_data << " ---> "
         end
         string << "nil"
+        puts string
     end
 
 
     def insert_at(value,index)
-
+        new_node = Node.new(value)
+        if index == 0
+            prepend(new_node)
+        elsif index >= size
+            append(new_node)
+        else
+            actual_node = at(index)
+            previous_node = at(index-1)
+            new_node = Node.new(value,actual_node)
+            previous_node.next_node = new_node
+        end
+        
     end
 
     def remove_at(index)
-    
+        if index == 0
+            @head = @head.next_node
+        elsif index >= size-1
+            pop
+        else
+            node = at(index)
+            next_node = node.next_node
+            previous_node = at(index-1)
+            previous_node.next_node = next_node
+        end
+
     end
 
 
@@ -183,7 +205,7 @@ p lista_nova.at(3)
 p lista_nova.at(4)
 p lista_nova.at(5)
 puts "========= POP ========"
-p lista_nova.pop
+lista_nova.pop
 p lista_nova
 puts "========= AT: ========"
 p lista_nova.at(0)
@@ -197,8 +219,22 @@ p lista_nova.contains?("Node3")
 puts "========= FIND: ========"
 p lista_nova.find("Node3")
 puts "========= TO_S: ========"
-p lista_nova.to_s
+lista_nova.to_s
 
 puts "================================= EXTRA ================================"
 puts "========= INSERT_AT ========"
-lista_nova.insert_at("teste",1).class
+lista_nova.insert_at("at index 0",0)
+lista_nova.to_s
+lista_nova.insert_at("at index 2",2)
+lista_nova.to_s
+lista_nova.insert_at("at index 8 (> limit)",8)
+lista_nova.to_s
+puts "========= REMOVE_AT ========"
+lista_nova.remove_at(0)
+lista_nova.to_s
+lista_nova.remove_at(1)
+lista_nova.to_s
+lista_nova.remove_at(4)
+lista_nova.to_s
+lista_nova.remove_at(100)
+lista_nova.to_s
